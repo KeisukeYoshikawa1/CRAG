@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CRAG</title>
+	<link rel="stylesheet" href="/static/resultpage.css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="Content-Script-Type" content="text/javascript">
+	<script src="http://maps.google.com/maps?file=api&v=2.x&sensor=true_or_false&key=AIzaSyAGgp5xCHHRvbMnhKHHYgzqdQ2yms7tKSY" type="text/javascript"></script>
+	<script type="text/javascript">
+	<!--   var map;
+	var directionsPanel;
+	var directions;
+	function initialize()
+	{
+		map = new GMap2(document.getElementById('map_canvas'));
+		map.setCenter(new GLatLng(35.68,139.77), 13);
+		map.addControl(new GLargeMapControl());
+		directionsPanel = document.getElementById('route');
+		directions = new GDirections(map, directionsPanel);
+		directions.loadFromWaypoints(new Array('渋谷駅','東京駅'), { locale: 'ja_JP' } );
+		directions.loadFromWaypoints(new Array('品川駅', '竹橋駅'), { locale: 'ja_JP' } );
+	}
+	-->
+	</script>
+</head>
+<header>
+	<div class="signature">
+		<p class="name">CRAG</p>
+	</div>
+</header>
+<body>
+	<div class="map">
+	<body onload="initialize()" onunload="GUnload()">
+	<div id="map_canvas" style="margin-top:30px; width: 300px; height: 300px; float:left;"></div>
+	<div id="route" style="width: 300px; height:300px; float:right;"></div>
+	</div>
+	<div class="result">
+		<p>{{ start_point_ll }}</p>
+<!--		<p>{{ start_point_jp }}</p>-->
+<!--  		<p>{{ input_distance_km }}</p>-->
+	</div>
+	<div class='return'>
+		<form action="inputpage" >
+		<button class="button" type="submit">戻る</button>
+		</form>
+	</div>
+
+
+
+</body>
+</html>
