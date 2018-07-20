@@ -1,0 +1,23 @@
+.map{
+	float:left;
+}
+
+.result{
+	float:right; 
+}
+
+input.input{
+	font-weight: bold;
+	padding: 10px 30px;
+	background-color: #9ad8c8;
+	color:white;
+}
+
+button.button {
+	/*font-size: 1.4em;*/
+	font-weight: bold;
+	padding: 10px 30px;
+	background-color: #9ad8c8;
+	color:white;
+	/*border-style: none;*/
+}

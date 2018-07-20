@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CRAG</title>
+	<link rel="stylesheet" href="/static/inputpage.css">
+</head>
+<header>
+	<div class="signature">
+		<p class="name">CRAG</p>
+	</div>
+</header>
+<body>
+	<div class='all'>
+		<div class="input">
+			<form method="post" action="resultpage">
+			{% csrf_token %}
+			<table>
+			{{form}}
+			</table>
+		</div>
+		<div class='botton'>
+			<p><button class="button" type="submit">経路検索</button></p>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
