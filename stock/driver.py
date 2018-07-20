@@ -3,31 +3,7 @@ import math
 from googlemaps.places import places
 import requests
 
-from forms import InputCrag
-#from django.http import HttpResponse
-
-
-def input(request):
-    form = InputCrag(request.POST)
-    if form.is_valid():
-        global start_point_jp
-        global input_distance_km
-        start_point_jp = form.cleaned_data.get('start_point_jp')
-        input_distance_km = form.cleaned_data.get('input_distance_km')
-        c = {
-        "start_point_jp": start_point_jp,
-        "input_distance_km": input_distance_km
-    }
-    return(c)
-
-print(input)
-print(input_distance_km)
-
-
-#print(start_point_jp)
-#print(input_distance_km)
-
-start_point_jp ='東京駅'
+start_point_jp = '東京駅'
 input_distance_km = 40
 
 gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")

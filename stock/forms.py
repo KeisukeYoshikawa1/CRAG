@@ -1,5 +1,5 @@
 from django import forms
-#from stock.models import Crag
+from stock.models import Crag
 
 class InputCrag(forms.Form):
     start_point_jp = forms.CharField(label='スタート地点')

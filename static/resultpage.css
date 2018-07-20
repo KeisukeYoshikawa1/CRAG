@@ -1,19 +1,9 @@
-.all{
-	text-align: center;
-	border:solid #00B0B0;
-	border-radius: 50px;
-}
-
 .map{
 	float:left;
 }
 
-.map_canvas{
-	float:left;
-}
-
 .result{
-	float:right;
+	float:right; 
 }
 
 input.input{
@@ -23,7 +13,7 @@ input.input{
 	color:white;
 }
 
-.button {
+button.button {
 	/*font-size: 1.4em;*/
 	font-weight: bold;
 	padding: 10px 30px;
