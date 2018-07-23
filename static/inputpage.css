@@ -6,6 +6,12 @@
 	float: center;
 }
 
+.top{
+	position:absolute;
+	text-align:center;
+	top:25%;
+	width:100%;
+}
 
 .input{
 	text-align: center;
@@ -24,4 +30,11 @@
 	color:white;
 	margin: 0 auto;
 	/*border-style: none;*/
+}
+
+.bottom{
+	position:absolute;
+	text-align:center;
+	top:75%;
+	width:100%;
 }

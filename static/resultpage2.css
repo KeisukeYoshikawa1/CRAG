@@ -1,0 +1,40 @@
+html{
+	background-color:#9ad8c8;
+}
+
+.all{
+	text-align: center;
+	border:solid #00B0B0;
+	border-radius:100px;
+	width:100%;
+	height:560px;
+}
+
+.map_canvas{
+	background-color:yellow;
+}
+
+.result{
+	background-color:orange;
+	float:right;
+	top:0px;
+	wid
+}
+
+
+.return{
+	background-color:blue;
+	position:absolute;
+	text-align: center;
+	width:99%;
+	top:90%;
+}
+
+button.button {
+	/*font-size: 1.4em;*/
+	font-weight: bold;
+	padding: 10px 30px;
+	background-color: #9ad8c8;
+	color:white;
+	/*border-style: none;*/
+}
