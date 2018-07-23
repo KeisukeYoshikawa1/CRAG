@@ -14,20 +14,32 @@ html{
 	background-color:yellow;
 }
 
-.result{
+.result1{
 	background-color:orange;
-	float:right;
-	top:0px;
-	wid
+	position:absolute;
+	text-align: center;
+	width:30%;
+	right:20px;
+	top:10%;
+	height:400px;
+}
+
+.result2{
+	background-color:orange;
+	position:absolute;
+	text-align: center;
+	width:30%;
+	left:20px;
+	top:10%;
+	height:400px;
 }
 
 
 .return{
-	background-color:blue;
 	position:absolute;
 	text-align: center;
 	width:99%;
-	top:90%;
+	top:80%;
 }
 
 button.button {
