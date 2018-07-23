@@ -31,6 +31,7 @@ EOF
 
 # collectstatic
 python3.6 manage.py collectstatic
+yes
 
 # Register uwsgi.service to systemd
 cd /usr/lib/systemd/system
