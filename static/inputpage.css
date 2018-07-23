@@ -1,0 +1,40 @@
+
+.all{
+	text-align: center;
+	border:solid #00B0B0;
+	border-radius: 50px;
+	float: center;
+}
+
+.top{
+	position:absolute;
+	text-align:center;
+	top:25%;
+	width:100%;
+}
+
+.input{
+	text-align: center;
+	width: 80%;
+	margin: 0 auto;
+	max-width: 500px;
+}
+
+
+
+.button {
+	/*font-size: 1.4em;*/
+	font-weight: bold;
+	padding: 10px 30px;
+	background-color: #9ad8c8;
+	color:white;
+	margin: 0 auto;
+	/*border-style: none;*/
+}
+
+.bottom{
+	position:absolute;
+	text-align:center;
+	top:75%;
+	width:100%;
+}

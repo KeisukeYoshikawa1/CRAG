@@ -1,0 +1,24 @@
+.map_canvas{
+	background-color:blue;
+	float:left;
+	height: 500px;
+    width: 40%;
+    margin: auto;
+    padding: 0px
+}
+
+.result{
+	background-color:blue;
+	float:right;
+}
+
+
+button.button {
+	background-color:blue;
+	/*font-size: 1.4em;*/
+	font-weight: bold;
+	padding: 10px 30px;
+	background-color: #9ad8c8;
+	color:white;
+	/*border-style: none;*/
+}
