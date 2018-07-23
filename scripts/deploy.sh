@@ -29,6 +29,9 @@ ExecStart=/bin/bash -c 'uwsgi --ini $BASE_DIR/systemd/uwsgi.ini'
 WantedBy=multi-user.target
 EOF
 
+# collectstatic
+python3.6 manage.py collectstatic
+
 # Register uwsgi.service to systemd
 cd /usr/lib/systemd/system
 cp $BASE_DIR/systemd/uwsgi.service uwsgi.service
