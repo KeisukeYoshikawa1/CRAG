@@ -66,10 +66,10 @@ for i in range(0,4,1):
 for i in range(0,len(mis_point),1):
     print(mid_point[mis_point[i]])
     del mid_point[mis_point[i]]
-    
+
 print(mis_point)
 print(mid_point)
-        
+
 #ゴール候補を入れるリスト
 goal_point_name = []
 goal_point_ll = []
@@ -87,12 +87,12 @@ if len(mid_point) < 4:
         place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
         place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
-    
+
         for j in place1['results']:
 
             goal_point_name.append(j['name'])
             goal_point_ll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
-        
+
 else:
     for i in range(0,4,1):
         print('4')
@@ -100,8 +100,8 @@ else:
         place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
         place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
-    
-    
+
+
         for j in place1['results']:
 
             goal_point_name.append(j['name'])
@@ -119,7 +119,7 @@ else:
 #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
 if not goal_point_name:
     exit()
-    
+
 print(goal_point_name)
 print(goal_point_ll)
 print(start_point_ll)
@@ -152,10 +152,10 @@ print(len(distance_diff_sort))
 if len(distance_diff_sort) < 5:
     for i in range(0,len(distance_diff_sort),1):
         distance_diff_5.append(distance_diff_sort[i])
-        
+
 else:
     for i in range(0,5,1):
         distance_diff_5.append(distance_diff_sort[i])
-    
+
 
 print(distance_diff_5)

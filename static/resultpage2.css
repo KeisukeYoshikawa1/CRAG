@@ -15,7 +15,15 @@ html{
 }
 
 .result1{
-	background-color:orange;
+	position:absolute;
+	text-align: center;
+	width:30%;
+	left:20px;
+	top:10%;
+	height:400px;
+}
+
+.result2{
 	position:absolute;
 	text-align: center;
 	width:30%;
@@ -24,15 +32,6 @@ html{
 	height:400px;
 }
 
-.result2{
-	background-color:orange;
-	position:absolute;
-	text-align: center;
-	width:30%;
-	left:20px;
-	top:10%;
-	height:400px;
-}
 
 
 .return{
