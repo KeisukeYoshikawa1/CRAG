@@ -5,7 +5,7 @@ import requests
 
 #htmlからのinput
 start_point_jp = '東京駅'
-input_distance_km = 50
+input_distance_km = 60
 
 #キーの入力（gmapsに保存）
 gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -56,70 +56,38 @@ mis_point = []
 
 for i in range(0,4,1):
     print(mid_point[i][0],mid_point[i][1])
-    if (mid_point[i][0]  >= -90 and mid_point[i][0] <= 90) and (mid_point[i][1] >= -180 and mid_point[i][1] <= 180):
-        print('OK')
-        continue
+    if (mid_point[i][0]  >= -90 and mid_point[i][0] <= 90):
+        pass
     else:
-        print('エラー')
-        mis_point.append(i)
-
-for i in range(0,len(mis_point),1):
-    print(mid_point[mis_point[i]])
-    del mid_point[mis_point[i]]
-    
-print(mis_point)
-print(mid_point)
+        mid_point[i][0] = (mid_point[i][0]-90) - 90
         
+    
+    if(mid_point[i][1] >= -180 and mid_point[i][1] <= 180):
+        pass
+    else:
+        mid_point[i][1] = (mid_point[i][1]-180) - 180
+
+print(mid_point)
+
 #ゴール候補を入れるリスト
 goal_point_name = []
 goal_point_ll = []
 
-
-
-
 #移動した4地点から周辺を検索
-
-if len(mid_point) < 4:
-    print('4以下')
-    for i in range(0,len(mid_point),1):
-        print(mid_point[i])
+for i in range(0,4,1):
         place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
         place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
         place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
     
         for j in place1['results']:
-
             goal_point_name.append(j['name'])
             goal_point_ll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
-        
-else:
-    for i in range(0,4,1):
-        print('4')
-        place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
-        place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
-        place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
-        place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
-    
-    
-        for j in place1['results']:
 
-            goal_point_name.append(j['name'])
-            goal_point_ll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
-        '''
-        for j in place2['results']:
-
-            goal_point_name.append(j['name'])
-            goal_point_ll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
-        for j in place3['results']:
-
-            goal_point_name.append(j['name'])
-            goal_point_ll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
-        '''
 #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
 if not goal_point_name:
     exit()
-    
+ 
 print(goal_point_name)
 print(goal_point_ll)
 print(start_point_ll)
@@ -159,3 +127,5 @@ else:
     
 
 print(distance_diff_5)
+
+
