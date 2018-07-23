@@ -109,7 +109,7 @@ def resultpage(request):
             print('4以下')
             for i in range(0,len(mid_point),1):
                 print(mid_point[i])
-                place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
+                place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=10000,language='ja')
                 place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
                 place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
                 place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')

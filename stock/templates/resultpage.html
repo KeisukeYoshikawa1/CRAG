@@ -41,13 +41,11 @@ function initialize() {
 
 	infoWindow2 = new google.maps.InfoWindow({noSupress: true});
 
-	start_point_lat = start_point_ll.0
-	start_point_lng = start_point_ll.1
 
 	var ary = [
 		{%for goal in distance_diff_5 %}
 		{
-			"start" :  new google.maps.LatLng(start_point_lat, start_point_lng),
+			"start" :  new google.maps.LatLng({{start_point_ll.0}}, {{start_point_ll.1}}),
 			"end" : new google.maps.LatLng({{ goal.2.0 }}, {{ goal.2.1 }}),
 			"icon" : "http://purazumakoi.info/sample/google_maps_api/direction-root/image/car.gif",
 			"color" : "#FE2E2E"
