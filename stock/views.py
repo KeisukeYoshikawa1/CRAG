@@ -163,7 +163,10 @@ def resultpage(request):
         distance_diff_5 = []
 
         #候補地点が5ヶ所以上の場合と以下の場合で分岐
-        if len(dis_diff_1_sort) < 5:
+        if len(dis_diff_1_sort) == 0:
+            return render(request, 'c_error.html')
+
+        elif len(dis_diff_1_sort) < 5:
             for i in range(0,len(dis_diff_1_sort),1):
                 distance_diff_5.append(dis_diff_1_sort[i])
 
