@@ -130,7 +130,7 @@ function fCalcRoute(start, end, icon, color) {
 		unitSystem: google.maps.DirectionsUnitSystem.METRIC,
 		optimizeWaypoints: true,
 		avoidHighways: true,	// false → 高速道路使用
-		avoidTolls: false	// true →、可能な場合は計算されたルートで有料区間を除外するよう指定します。
+		avoidTolls: true	// true →、可能な場合は計算されたルートで有料区間を除外するよう指定します。
 	};
 	directionsService.route(request,
 			function(response,status){
@@ -171,7 +171,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			<p>ルートA</p>
 			<p>スタート地点:{{start_point_jp}}</p>
 			{%for goalname in distance_diff_5 %}
-			<p>目的地点:{{goalname.1}}</p>
+			<p>目的地点:{{ goalname.1 }}</p>
+			<p>走行距離:{{ goalname.0 }}</p>
 			{% endfor %}
 	</div>
 	<div class="result2">

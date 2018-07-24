@@ -160,10 +160,14 @@ def resultpage(request):
         print(distance_diff_5)
 
 
+        d
+
+
         c = {
             'distance_diff_5':distance_diff_5,
             'start_point_jp':start_point_jp,
-            'start_point_ll': start_point_ll
+            'start_point_ll': start_point_ll,
+            'input_distance_km':input_distance_km,
             }
 
     return render(request, 'resultpage.html', c)
