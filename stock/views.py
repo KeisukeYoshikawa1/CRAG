@@ -119,61 +119,63 @@ def resultpage(request):
 
         #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
         if not goal_point_name:
+            return render(request,'c_error.html')
             exit()
-
-        print('スタート地点',start_point_ll)
-        print(goal_point_name)
-        print(goal_point_ll)
-
-
-        #スタート地点からゴール候補のルート（距離）を検索
-        route = gmaps.distance_matrix(origins=start_point_jp,destinations=goal_point_name,mode='driving',language='ja',avoid='highways')
-
-        #入力距離との差を入れるリスト
-        distance_diff = []
-
-        #全ルートの距離と入力距離の差を出す
-        count = 0
-        for j in route['rows'][0]['elements']:
-            if 'distance' not in j:
-                continue
-            distance_diff.append([abs(input_distance_km*1000 - j['distance']['value']),goal_point_name[count],goal_point_ll[count]])
-            count += 1
-
-        #差をソートする
-        distance_diff_sort = sorted(distance_diff)
-        print( distance_diff_sort)
-
-        #差の上位5つを抽出
-        distance_diff_5 = []
-        print(len(distance_diff_sort))
-
-        #候補地点が5ヶ所以上の場合と以下の場合で分岐
-        if len(distance_diff_sort) < 5:
-            for i in range(0,len(distance_diff_sort),1):
-                distance_diff_5.append(distance_diff_sort[i])
-
         else:
-            for i in range(0,5,1):
-                distance_diff_5.append(distance_diff_sort[i])
 
-        print(distance_diff_5)
+            print('スタート地点',start_point_ll)
+            print(goal_point_name)
+            print(goal_point_ll)
+
+
+            #スタート地点からゴール候補のルート（距離）を検索
+            route = gmaps.distance_matrix(origins=start_point_jp,destinations=goal_point_name,mode='driving',language='ja',avoid='highways')
+
+            #入力距離との差を入れるリスト
+            distance_diff = []
+
+            #全ルートの距離と入力距離の差を出す
+            count = 0
+            for j in route['rows'][0]['elements']:
+                if 'distance' not in j:
+                    continue
+                distance_diff.append([abs(input_distance_km*1000 - j['distance']['value']),goal_point_name[count],goal_point_ll[count]])
+                count += 1
+
+            #差をソートする
+            distance_diff_sort = sorted(distance_diff)
+            print( distance_diff_sort)
+
+            #差の上位5つを抽出
+            distance_diff_5 = []
+            print(len(distance_diff_sort))
+
+            #候補地点が5ヶ所以上の場合と以下の場合で分岐
+            if len(distance_diff_sort) < 5:
+                for i in range(0,len(distance_diff_sort),1):
+                    distance_diff_5.append(distance_diff_sort[i])
+
+            else:
+                for i in range(0,5,1):
+                    distance_diff_5.append(distance_diff_sort[i])
+
+            print(distance_diff_5)
 
 
 
-        for diff in distance_diff_5:
-            distance_sum=input_distance_km+diff[1]/1000
+            for diff in distance_diff_5:
+                distance_sum=input_distance_km+diff[0]/1000
 
-        print(distance_sum)
+            print(distance_sum)
 
-        c = {
-            'distance_diff_5':distance_diff_5,
-            'start_point_jp':start_point_jp,
-            'start_point_ll': start_point_ll,
-            'input_distance_km':input_distance_km,
-            'distance_sum':distance_sum,
-            }
+            c = {
+                'distance_diff_5':distance_diff_5,
+                'start_point_jp':start_point_jp,
+                'start_point_ll': start_point_ll,
+                'input_distance_km':input_distance_km,
+                'distance_sum':distance_sum,
+                }
 
-    return render(request, 'resultpage.html', c)
+            return render(request, 'resultpage.html', c)
 
 
