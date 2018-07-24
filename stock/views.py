@@ -123,9 +123,9 @@ def resultpage(request):
             for i in range(0,4,1):
                 print('4')
                 place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
-                place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
-                place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
-                place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
+#                place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
+#                place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
+#                place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
 
 
                 for j in place1['results']:
