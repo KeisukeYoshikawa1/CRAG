@@ -30,8 +30,8 @@ WantedBy=multi-user.target
 EOF
 
 # collectstatic
-python3.6 manage.py collectstatic
-yes
+#python3.6 manage.py collectstatic
+#yes
 
 # Register uwsgi.service to systemd
 cd /usr/lib/systemd/system
