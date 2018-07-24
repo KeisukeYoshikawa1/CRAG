@@ -4,8 +4,8 @@ from googlemaps.places import places
 import requests
 
 #htmlからのinput
-start_point_jp = '長野駅'
-input_distance_km = 30
+start_point_jp = '東京駅'
+input_distance_km = 40
 
 #キーの入力（gmapsに保存）
 gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -77,8 +77,13 @@ for i in range(0,8,1):
 print(mid_point)
 
 #ゴール候補を入れるリスト
+gpn = []
+gpll = []
 goal_point_name = []
 goal_point_ll = []
+dis_diff_1 = []
+#入力距離との差を入れるリスト
+dis_diff = []
 
 #移動した8地点から周辺を検索
 for i in range(0,8,1):
@@ -87,49 +92,63 @@ for i in range(0,8,1):
         #place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         #place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
 
+#1地点ごとの周辺検索結果を保存
         for j in place1['results']:
+            gpn.append(j['name'])
             goal_point_name.append(j['name'])
-            goal_point_ll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
+            gpll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
+
+#gpnが空だった場合はループを続ける
+        if not gpn:
+            continue
+
+#gpnが存在していたらルートを検索する
+        else:
+        #スタート地点からゴール候補のルート（距離）を検索
+            route = gmaps.distance_matrix(origins=start_point_jp,destinations=gpn,mode='driving',language='ja',avoid='highways')
+
+            print(i,route)
+            #全ルートの距離と入力距離の差を出す
+            count = 0
+            for j in route['rows'][0]['elements']:
+                if 'distance' not in j:
+                    continue
+                dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
+                count += 1
+
+            #差をソートする
+            dis_diff_sort = sorted(dis_diff)
+            print( i,dis_diff_sort)
+
+            #差が一番小さいものだけ保存
+            dis_diff_1.append(dis_diff_sort[0])
+
+#次の地点を検索するので、配列をクリアする
+        gpn.clear()
+        gpll.clear()
+        dis_diff.clear()
+        route.clear()
+
 
 #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
 if not goal_point_name:
     exit()
-
 print('スタート地点',start_point_ll)
-print(goal_point_name)
-print(goal_point_ll)
 
-
-#スタート地点からゴール候補のルート（距離）を検索
-route = gmaps.distance_matrix(origins=start_point_jp,destinations=goal_point_name,mode='driving',language='ja',avoid='highways')
-
-#入力距離との差を入れるリスト
-distance_diff = []
-
-#全ルートの距離と入力距離の差を出す
-count = 0
-for j in route['rows'][0]['elements']:
-    if 'distance' not in j:
-        continue
-    distance_diff.append([abs(input_distance_km*1000 - j['distance']['value']),goal_point_name[count],goal_point_ll[count]])
-    count += 1
-
-#差をソートする
-distance_diff_sort = sorted(distance_diff)
-print( distance_diff_sort)
+#ソートする
+dis_diff_1_sort = sorted(dis_diff_1)
 
 #差の上位5つを抽出
 distance_diff_5 = []
-print(len(distance_diff_sort))
 
 #候補地点が5ヶ所以上の場合と以下の場合で分岐
-if len(distance_diff_sort) < 5:
-    for i in range(0,len(distance_diff_sort),1):
-        distance_diff_5.append(distance_diff_sort[i])
+if len(dis_diff_1_sort) < 5:
+    for i in range(0,len(dis_diff_1_sort),1):
+        distance_diff_5.append(dis_diff_1_sort[i])
 
 else:
     for i in range(0,5,1):
-        distance_diff_5.append(distance_diff_sort[i])
+        distance_diff_5.append(dis_diff_1_sort[i])
 
 print(distance_diff_5)
 
