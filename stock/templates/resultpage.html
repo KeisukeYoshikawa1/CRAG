@@ -42,13 +42,34 @@ function initialize() {
 	infoWindow2 = new google.maps.InfoWindow({noSupress: true});
 
 
+	//List<String> colorlist = new ArrayList<String>();{
+	//	{
+	//		colorlist.add("#FF0000");
+	//		colorlist.add("#FF8000");
+	//		colorlist.add("#40FF00");
+	//		colorlist.add("#00BFFF");
+	//		colorlist.add("#0000FF");
+	//	}
+	//};
+
+	var color = [
+		"#FF0000",
+		"#FF8000",
+		"#40FF00",
+		"#00BFFF",
+		"#0000FF"
+	];
+
+
+
 	var ary = [
 		{%for goal in distance_diff_5 %}
 		{
 			"start" :  new google.maps.LatLng({{start_point_ll.0}}, {{start_point_ll.1}}),
 			"end" : new google.maps.LatLng({{ goal.2.0 }}, {{ goal.2.1 }}),
 			"icon" : "http://purazumakoi.info/sample/google_maps_api/direction-root/image/car.gif",
-			"color" : "#FE2E2E"
+			"color" : color[{{ forloop.counter0 }}]
+
 		},
 		{% endfor %}
 
@@ -108,7 +129,7 @@ function fCalcRoute(start, end, icon, color) {
 		travelMode: google.maps.DirectionsTravelMode.DRIVING,
 		unitSystem: google.maps.DirectionsUnitSystem.METRIC,
 		optimizeWaypoints: true,
-		avoidHighways: false,	// false → 高速道路使用
+		avoidHighways: true,	// false → 高速道路使用
 		avoidTolls: false	// true →、可能な場合は計算されたルートで有料区間を除外するよう指定します。
 	};
 	directionsService.route(request,
@@ -147,11 +168,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 	</div>
 	<div class="result1">
-			<p></p>
-			<p>{{ start_point_jp }}</p>
-			<p>{{ distance_diff_1 }}</p>
+			<p>ルートA</p>
+			<p>スタート地点:{{start_point_jp}}</p>
+			{%for goalname in distance_diff_5 %}
+			<p>目的地点:{{goalname.1}}</p>
+			{% endfor %}
 	</div>
-
 	<div class="result2">
 			<p>ルートAルートB</p>
 			<p>{{distance_diff_5}}</p>
