@@ -172,8 +172,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			<p>スタート地点:{{start_point_jp}}</p>
 			{%for goalname in distance_diff_5 %}
 			<p>目的地点:{{ goalname.1 }}</p>
-			<p>走行距離:{{ goalname.0 }}</p>
 			{% endfor %}
+			<p>走行距離:{{ distance_sum }}</p>
 	</div>
 	<div class="result2">
 			<p>ルートAルートB</p>
