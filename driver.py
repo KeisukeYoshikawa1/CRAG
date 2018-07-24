@@ -85,9 +85,12 @@ dis_diff_1 = []
 #入力距離との差を入れるリスト
 dis_diff = []
 
+#色のリスト
+colorlist = ['#FF0000','#FF8000','#40FF00','#00BFFF','#0000FF']
+
 #移動した8地点から周辺を検索
 for i in range(0,8,1):
-        place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
+        place1 = gmaps.places_nearby(keyword="コンビ二",location=mid_point[i],radius=5000,language='ja')
         #place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
         #place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         #place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
@@ -149,6 +152,10 @@ if len(dis_diff_1_sort) < 5:
 else:
     for i in range(0,5,1):
         distance_diff_5.append(dis_diff_1_sort[i])
+
+#colorコード追加
+for i in range(0,len(distance_diff_5),1):
+    distance_diff_5[i].append(colorlist[i])
 
 print(distance_diff_5)
 
