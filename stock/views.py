@@ -27,11 +27,19 @@ from googlemaps.places import places
 import requests
 
 
+
 def resultpage(request):
     form = InputCrag(request.POST)
     if form.is_valid():
         start_point_jp = form.cleaned_data.get('start_point_jp')
         input_distance_km = float(form.cleaned_data.get('input_distance_km'))
+
+        #ここからコピペ
+        #ここからコピペ
+
+        error_pm = input_distance_km * 0.2 * 1000
+        input_distance_km = input_distance_km * 0.90
+        keyword = ["station","コンビニ"]
 
         #キーの入力（gmapsに保存）
         gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -39,6 +47,14 @@ def resultpage(request):
         #geocode_resultにstart_point_jp（スタート地点名）を入れることで地点の情報が返ってくる
         geocode_result = gmaps.geocode(start_point_jp)
         #print(geocode_result)
+
+        #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
+        #0724編集、htmlに影響あり
+        if not geocode_result:
+            print('スタート地点が見つかりません')
+            return render(request, 'c_error.html')
+            exit()
+
 
         '''
         #geocode_resultに入ってる座標データだけ表示
@@ -117,7 +133,10 @@ def resultpage(request):
 
         #移動した8地点から周辺を検索
         for i in range(0,8,1):
-                place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
+
+            for k in range(0,len(keyword),1):
+                print(i,keyword[k])
+                place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=1000,language='ja')
                 #place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
                 #place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
                 #place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
@@ -127,12 +146,13 @@ def resultpage(request):
                     gpn.append(j['name'])
                     gpll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
 
+                place1.clear()
+
         #gpnが空だった場合はループを続ける
-                if not gpn:
-                    continue
+            if not gpn:
+                continue
 
         #gpnが存在していたらルートを検索する
-<<<<<<< HEAD
 <<<<<<< HEAD
             else:
             #スタート地点からゴール候補のルート（距離）を検索
@@ -177,33 +197,6 @@ def resultpage(request):
 =======
                     dis_diff_1.append(dis_diff_sort[0])
 >>>>>>> eaa0f9b9dcc86f3bb470ecff362e906d16d3c7bf
-=======
-                else:
-                #スタート地点からゴール候補のルート（距離）を検索
-                    route = gmaps.distance_matrix(origins=start_point_jp,destinations=gpn,mode='driving',language='ja',avoid='highways')
-
-                    print(i,route)
-                    #全ルートの距離と入力距離の差を出す
-                    count = 0
-                    for j in route['rows'][0]['elements']:
-                        if 'distance' not in j:
-                            continue
-                        dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
-                        count += 1
-
-        #ゴール候補地が無い場合は処理をしない
-                    if not dis_diff:
-                        continue
-                    else:
-                        #差をソートする
-                        dis_diff_sort = sorted(dis_diff)
-                        print( i,dis_diff_sort)
-
-                        #差が一番小さいものだけ保存
-                        #差が15kmを超えるものは保存しない
-                        if dis_diff_sort[0][0] <= 15000:
-                            dis_diff_1.append(dis_diff_sort[0])
->>>>>>> parent of a97827a... 14:11
 
         #次の地点を検索するので、配列をクリアする
                 gpn.clear()
@@ -216,14 +209,12 @@ def resultpage(request):
         #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
         #0724編集、htmlに影響あり
         if not dis_diff_1:
+            print('候補地点無し')
             return render(request, 'c_error.html')
             exit()
-<<<<<<< HEAD
 
 =======
 >>>>>>> eaa0f9b9dcc86f3bb470ecff362e906d16d3c7bf
-=======
->>>>>>> parent of a97827a... 14:11
         print('スタート地点',start_point_ll)
 
         #ソートする
