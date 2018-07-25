@@ -17,7 +17,7 @@ html{
 h1 {
 position: relative;
 font-size:80px;
-color:#04474a;
+color:#01a982;
 }
 
 h1:after {
@@ -47,7 +47,7 @@ margin-top:20px
 button.button {
 	display: inline-block;
   text-decoration: none;
-  background: #87befd;
+  background: #01a982;
   color: #FFF;
   width: 120px;
   height: 120px;
@@ -62,6 +62,6 @@ button.button {
 }
 
 .button:hover {
-     background: #668ad8;
+     background: #01a982;
 
 }
