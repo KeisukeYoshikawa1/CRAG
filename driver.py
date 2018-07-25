@@ -4,8 +4,15 @@ from googlemaps.places import places
 import requests
 
 #htmlからのinput
-start_point_jp = '横浜駅'
+start_point_jp = '東京駅'
 input_distance_km = 50
+
+#ここからコピペ
+#ここからコピペ
+
+error_pm = input_distance_km * 0.2 * 1000
+input_distance_km = input_distance_km * 0.90
+keyword = ["station","コンビニ"]
 
 #キーの入力（gmapsに保存）
 gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -13,6 +20,14 @@ gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
 #geocode_resultにstart_point_jp（スタート地点名）を入れることで地点の情報が返ってくる
 geocode_result = gmaps.geocode(start_point_jp)
 #print(geocode_result)
+
+#周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
+#0724編集、htmlに影響あり
+if not geocode_result:
+    print('スタート地点が見つかりません')
+    #return render(request, 'c_error.html')
+    exit()
+
 
 '''
 #geocode_resultに入ってる座標データだけ表示
@@ -90,7 +105,10 @@ colorlist = ['#FF0000','#FF8000','#40FF00','#00BFFF','#0000FF']
 
 #移動した8地点から周辺を検索
 for i in range(0,8,1):
-        place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
+
+    for k in range(0,len(keyword),1):
+        print(i,keyword[k])
+        place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=1000,language='ja')
         #place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
         #place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         #place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
@@ -101,36 +119,38 @@ for i in range(0,8,1):
             goal_point_name.append(j['name'])
             gpll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
 
+        place1.clear()
+
 #gpnが空だった場合はループを続ける
-        if not gpn:
-            continue
+    if not gpn:
+        continue
 
 #gpnが存在していたらルートを検索する
-        else:
-        #スタート地点からゴール候補のルート（距離）を検索
-            route = gmaps.distance_matrix(origins=start_point_jp,destinations=gpn,mode='driving',language='ja',avoid='highways')
+    else:
+    #スタート地点からゴール候補のルート（距離）を検索
+        route = gmaps.distance_matrix(origins=start_point_jp,destinations=gpn,mode='driving',language='ja',avoid='highways')
 
-            print(i,route)
-            #全ルートの距離と入力距離の差を出す
-            count = 0
-            for j in route['rows'][0]['elements']:
-                if 'distance' not in j:
-                    continue
-                dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
-                count += 1
+        print(i,route)
+        #全ルートの距離と入力距離の差を出す
+        count = 0
+        for j in route['rows'][0]['elements']:
+            if 'distance' not in j:
+                continue
+            dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
+            count += 1
 
 #ゴール候補地が無い場合は処理をしない
-            if not dis_diff:
-                continue
-            else:
-                #差をソートする
-                dis_diff_sort = sorted(dis_diff)
-                print( i,dis_diff_sort)
-    
-                #差が一番小さいものだけ保存
-                #差が15kmを超えるものは保存しない
-                if dis_diff_sort[0][0] <= 15000:
-                    dis_diff_1.append(dis_diff_sort[0])
+        if not dis_diff:
+            continue
+        else:
+            #差をソートする
+            dis_diff_sort = sorted(dis_diff)
+            print( i,dis_diff_sort)
+
+            #差が一番小さいものだけ保存
+            #差が入力距離の20%を超えるものは保存しない
+            if dis_diff_sort[0][0] <= error_pm:
+                dis_diff_1.append(dis_diff_sort[0])
 
 #次の地点を検索するので、配列をクリアする
         gpn.clear()
@@ -143,7 +163,9 @@ for i in range(0,8,1):
 #0724編集、htmlに影響あり
 if not dis_diff_1:
     print('候補地点無し')
+    #return render(request, 'c_error.html')
     exit()
+
 print('スタート地点',start_point_ll)
 
 #ソートする
@@ -163,8 +185,8 @@ else:
     for i in range(0,5,1):
         distance_diff_5.append(dis_diff_1_sort[i])
         #route[i].append(dis_diff_1_sort[i][2])
-        
-        
+
+
 print(route)
 #colorコード追加
 for i in range(0,len(distance_diff_5),1):
@@ -174,9 +196,9 @@ print(distance_diff_5)
 
 # route_altitude = gmaps.elevation_along_path(path = route,samples=512)
 # print(len(route_altitude))
-# 
+#
 # route_altitude_m = []
-# 
+#
 # for i in range(0,len(route_altitude)-1,1):
 #     route_altitude_m[i].append(route_altitude[i]['elevation'])
 # print(route_altitude_m)
@@ -185,10 +207,10 @@ print(distance_diff_5)
 
 
 # interval = input_distance_km * 1000 / 512
-# 
+#
 # gradient = []
-# 
+#
 # for i in range(0,len(route_altitude)-1,1):
 #     gradient.append((route_altitude[i+1]['elevation'] - route_altitude[i]['elevation']) * 100 / interval)
-# 
+#
 # print(gradient)
