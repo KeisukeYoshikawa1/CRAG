@@ -130,7 +130,6 @@ def resultpage(request):
         #色のリスト
         colorlist = ['#FF0000','#FF8000','#40FF00','#00BFFF','#0000FF']
 
-
         #移動した8地点から周辺を検索
         for i in range(0,8,1):
 
@@ -144,6 +143,7 @@ def resultpage(request):
         #1地点ごとの周辺検索結果を保存
                 for j in place1['results']:
                     gpn.append(j['name'])
+                    goal_point_name.append(j['name'])
                     gpll.append([j['geometry']['location']['lat'],j['geometry']['location']['lng']])
 
                 place1.clear()
@@ -153,7 +153,6 @@ def resultpage(request):
                 continue
 
         #gpnが存在していたらルートを検索する
-<<<<<<< HEAD
             else:
             #スタート地点からゴール候補のルート（距離）を検索
                 route = gmaps.distance_matrix(origins=start_point_jp,destinations=gpn,mode='driving',language='ja',avoid='highways')
@@ -171,32 +170,14 @@ def resultpage(request):
                 if not dis_diff:
                     continue
                 else:
-=======
-                else:
-                #スタート地点からゴール候補のルート（距離）を検索
-                    route = gmaps.distance_matrix(origins=start_point_jp,destinations=gpn,mode='driving',language='ja',avoid='highways')
-
-                    #全ルートの距離と入力距離の差を出す
-                    count = 0
-                    for j in route['rows'][0]['elements']:
-                        if 'distance' not in j:
-                            continue
-                        dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
-                        count += 1
-
->>>>>>> eaa0f9b9dcc86f3bb470ecff362e906d16d3c7bf
                     #差をソートする
                     dis_diff_sort = sorted(dis_diff)
                     print( i,dis_diff_sort)
 
                     #差が一番小さいものだけ保存
-<<<<<<< HEAD
                     #差が入力距離の20%を超えるものは保存しない
                     if dis_diff_sort[0][0] <= error_pm:
                         dis_diff_1.append(dis_diff_sort[0])
-=======
-                    dis_diff_1.append(dis_diff_sort[0])
->>>>>>> eaa0f9b9dcc86f3bb470ecff362e906d16d3c7bf
 
         #次の地点を検索するので、配列をクリアする
                 gpn.clear()
@@ -205,7 +186,6 @@ def resultpage(request):
                 route.clear()
 
 
-<<<<<<< HEAD
         #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
         #0724編集、htmlに影響あり
         if not dis_diff_1:
@@ -213,8 +193,6 @@ def resultpage(request):
             return render(request, 'c_error.html')
             exit()
 
-=======
->>>>>>> eaa0f9b9dcc86f3bb470ecff362e906d16d3c7bf
         print('スタート地点',start_point_ll)
 
         #ソートする
@@ -222,23 +200,24 @@ def resultpage(request):
 
         #差の上位5つを抽出
         distance_diff_5 = []
+        route = []
 
         #候補地点が5ヶ所以上の場合と以下の場合で分岐
-        if len(dis_diff_1_sort) == 0:
-            return render(request, 'c_error.html')
-
-        elif len(dis_diff_1_sort) < 5:
+        if len(dis_diff_1_sort) < 5:
             for i in range(0,len(dis_diff_1_sort),1):
                 distance_diff_5.append(dis_diff_1_sort[i])
+                #route[i].append(dis_diff_1_sort[i][2])
 
         else:
             for i in range(0,5,1):
                 distance_diff_5.append(dis_diff_1_sort[i])
+                #route[i].append(dis_diff_1_sort[i][2])
 
+
+        print(route)
         #colorコード追加
         for i in range(0,len(distance_diff_5),1):
             distance_diff_5[i].append(colorlist[i])
-
 
         print(distance_diff_5)
 
