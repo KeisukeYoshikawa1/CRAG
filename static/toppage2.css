@@ -1,4 +1,9 @@
-
+html{
+	background-image: url('/static/Road3.jpg');
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+}
 
 .main image{
 	width: 100%;
@@ -21,9 +26,9 @@
 	height:40%;
     display: inline-block;
 	position:absolute;
-  	color: #9ad8c8;
-	  border-top: solid #9ad8c8 1px;/*上のボーダー*/
-	  border-bottom: solid #9ad8c8 1px;/*下のボーダー*/
+  	color: #ff8d6d;
+	  border-top: solid #ff8d6d 1px;/*上のボーダー*/
+	  border-bottom: solid #ff8d6d 1px;/*下のボーダー*/
 	  padding: 0.5em 0 0.5em 1.5em;
 
 }
@@ -31,26 +36,26 @@
 .intro p  {
   line-height: 1.5; /*文の行高*/
   padding: 0.5em 0; /*前後の文との余白*/
-  font-size:25px;
+  font-size:100%;
   font-weight: bold;
 }
 .intro h1  {
   line-height: 1.5; /*文の行高*/
   padding: 0.05em 0; /*前後の文との余白*/
-  font-size:50px;
-  color:#ff8000;
+  font-size:150%;
+  color:#ff8d6d;
 }
 .intro h2  {
   line-height: 1.5; /*文の行高*/
   padding: 0.05em 0; /*前後の文との余白*/
-  font-size:30px;
+  font-size:100%;
   text-decoration: underline;
 }
 button.button {
 	/*font-size: 1.4em;*/
 	font-weight: bold;
 	padding: 10px 30px;
-	background-color: #9ad8c8;
+	background-color: #01a982;
 	color:white;
 	/*border-style: none;*/
 }
@@ -63,11 +68,11 @@ button.button {
 	height:10%;
     display: inline-block;
     font-weight: bold;
-    font-size:30px;
+    font-size:100%;
     padding: 0.25em 0.5em;
     text-decoration: none;
-    color: #00BCD4;
-    background: #800000;
+    color: white;
+    background: #01a982;
     border-radius: 0 30px 30px 0;
     transition: .4s;
 }
