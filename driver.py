@@ -4,8 +4,8 @@ from googlemaps.places import places
 import requests
 
 #htmlからのinput
-start_point_jp = '東京駅'
-input_distance_km = 40
+start_point_jp = '横浜駅'
+input_distance_km = 50
 
 #キーの入力（gmapsに保存）
 gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -90,7 +90,7 @@ colorlist = ['#FF0000','#FF8000','#40FF00','#00BFFF','#0000FF']
 
 #移動した8地点から周辺を検索
 for i in range(0,8,1):
-        place1 = gmaps.places_nearby(keyword="コンビ二",location=mid_point[i],radius=5000,language='ja')
+        place1 = gmaps.places_nearby(keyword="station",location=mid_point[i],radius=1000,language='ja')
         #place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
         #place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
         #place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
@@ -119,12 +119,18 @@ for i in range(0,8,1):
                 dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
                 count += 1
 
-            #差をソートする
-            dis_diff_sort = sorted(dis_diff)
-            print( i,dis_diff_sort)
-
-            #差が一番小さいものだけ保存
-            dis_diff_1.append(dis_diff_sort[0])
+#ゴール候補地が無い場合は処理をしない
+            if not dis_diff:
+                continue
+            else:
+                #差をソートする
+                dis_diff_sort = sorted(dis_diff)
+                print( i,dis_diff_sort)
+    
+                #差が一番小さいものだけ保存
+                #差が15kmを超えるものは保存しない
+                if dis_diff_sort[0][0] <= 15000:
+                    dis_diff_1.append(dis_diff_sort[0])
 
 #次の地点を検索するので、配列をクリアする
         gpn.clear()
@@ -134,7 +140,9 @@ for i in range(0,8,1):
 
 
 #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
-if not goal_point_name:
+#0724編集、htmlに影響あり
+if not dis_diff_1:
+    print('候補地点無し')
     exit()
 print('スタート地点',start_point_ll)
 
@@ -143,20 +151,44 @@ dis_diff_1_sort = sorted(dis_diff_1)
 
 #差の上位5つを抽出
 distance_diff_5 = []
+route = []
 
 #候補地点が5ヶ所以上の場合と以下の場合で分岐
 if len(dis_diff_1_sort) < 5:
     for i in range(0,len(dis_diff_1_sort),1):
         distance_diff_5.append(dis_diff_1_sort[i])
+        #route[i].append(dis_diff_1_sort[i][2])
 
 else:
     for i in range(0,5,1):
         distance_diff_5.append(dis_diff_1_sort[i])
-
+        #route[i].append(dis_diff_1_sort[i][2])
+        
+        
+print(route)
 #colorコード追加
 for i in range(0,len(distance_diff_5),1):
     distance_diff_5[i].append(colorlist[i])
 
 print(distance_diff_5)
 
+# route_altitude = gmaps.elevation_along_path(path = route,samples=512)
+# print(len(route_altitude))
+# 
+# route_altitude_m = []
+# 
+# for i in range(0,len(route_altitude)-1,1):
+#     route_altitude_m[i].append(route_altitude[i]['elevation'])
+# print(route_altitude_m)
+# print(max(route_altitude_m[0]))
+# print(min(route_altitude_m[0]))
 
+
+# interval = input_distance_km * 1000 / 512
+# 
+# gradient = []
+# 
+# for i in range(0,len(route_altitude)-1,1):
+#     gradient.append((route_altitude[i+1]['elevation'] - route_altitude[i]['elevation']) * 100 / interval)
+# 
+# print(gradient)
