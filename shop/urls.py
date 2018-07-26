@@ -20,7 +20,7 @@ from stock import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^/toppage$',views.toppage, name='toppage'),
-    url(r'^/inputpage$', views.inputpage, name='inputpage'),
-    url(r'^/resultpage$', views.resultpage, name='resultpage'),
+    url(r'^toppage$',views.toppage, name='toppage'),
+    url(r'^inputpage$', views.inputpage, name='inputpage'),
+    url(r'^resultpage$', views.resultpage, name='resultpage'),
 ]
