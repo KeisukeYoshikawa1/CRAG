@@ -17,8 +17,9 @@ html{
 	background-color:yellow;
 }
 
+
 .result_tytle{
-	background-color:rgba(255, 255, 255, 0.5);
+	background-color:rgba(255, 255, 255, 0.8);
 	border: 1px solid #FFFFFF;
 	color: #01a982;
 	position:absolute;
@@ -30,25 +31,25 @@ html{
 }
 
 .result1{
-	background-color:rgba(255, 255, 255, 0.5);
+	background-color:rgba(255, 255, 255, 0.8);
 	border: 1px solid #FFFFFF;
 	position:absolute;
 	text-align: center;
 	width:30%;
 	left:20px;
 	top:30%;
-	height:270px;
+	height:auto;
 }
 
 .result2{
-	background-color:rgba(255, 255, 255, 0.5);
+	background-color:rgba(255, 255, 255, 0.8);
 	border: 1px solid #FFFFFF;
 	position:absolute;
 	text-align: center;
 	width:30%;
 	right:20px;
 	top:10%;
-	height:400px;
+	height:auto;
 }
 
 
