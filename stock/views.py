@@ -28,11 +28,14 @@ import requests
 
 
 
+
+
 def resultpage(request):
     form = InputCrag(request.POST)
     if form.is_valid():
         start_point_jp = form.cleaned_data.get('start_point_jp')
         input_distance_km = float(form.cleaned_data.get('input_distance_km'))
+
 
         #ここからコピペ
         #ここからコピペ
@@ -53,9 +56,8 @@ def resultpage(request):
         #0724編集、htmlに影響あり
         if not geocode_result:
             print('スタート地点が見つかりません')
-            #return render(request, 'c_error.html')
+            return render(request, 'c_error.html')
             exit()
-
 
         '''
         #geocode_resultに入ってる座標データだけ表示
@@ -136,7 +138,7 @@ def resultpage(request):
 
             for k in range(0,len(keyword),1):
                 print(i,keyword[k])
-                place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=5000,language='ja')
+                place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=3000,language='ja')
 
 
         #1地点ごとの周辺検索結果を保存
@@ -162,7 +164,7 @@ def resultpage(request):
                 for j in route['rows'][0]['elements']:
                     if 'distance' not in j:
                         continue
-                    dis_diff.append([abs(input_distance_km_def*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
+                    dis_diff.append([abs(input_distance_km_def*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text'],int(j['duration']['value'] * 1.6 / 60)])
                     count += 1
 
         #ゴール候補地が無い場合は処理をしない
@@ -189,7 +191,7 @@ def resultpage(request):
         #0724編集、htmlに影響あり
         if not dis_diff_1:
             print('候補地点無し')
-            #return render(request, 'c_error.html')
+            return render(request, 'c_error.html')
             exit()
 
         print('スタート地点',start_point_ll)
@@ -203,6 +205,7 @@ def resultpage(request):
         route_altitude_m = []
 
         #候補地点が5ヶ所以上の場合と以下の場合で分岐
+        #これ分岐いらないな
         if len(dis_diff_1_sort) < 5:
             print(dis_diff_1_sort[0][2])
             for i in range(0,len(dis_diff_1_sort),1):

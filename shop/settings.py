@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 from django.conf.global_settings import CSRF_FAILURE_VIEW, STATICFILES_DIRS
+from django.db.transaction import non_atomic_requests
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,3 +126,5 @@ STATICFILES_DIRS=[os.path.join(BASE_DIR,'static')]
 #urlに/static/を打ったとき見るファイルはここだと教えている
 
 CSRF_FAILURE_VIEW = 'stock.views.csrf_failure'
+
+#ATOMIC_REQUESTS = True
