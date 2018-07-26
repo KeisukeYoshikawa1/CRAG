@@ -11,8 +11,9 @@ input_distance_km = 50
 #ここからコピペ
 
 error_pm = input_distance_km * 0.2 * 1000
+input_distance_km_def = input_distance_km
 input_distance_km = input_distance_km * 0.90
-keyword = ["station","コンビニ"]
+keyword = ["駅"]
 
 #キーの入力（gmapsに保存）
 gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -108,10 +109,8 @@ for i in range(0,8,1):
 
     for k in range(0,len(keyword),1):
         print(i,keyword[k])
-        place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=1000,language='ja')
-        #place2 = gmaps.places_nearby(keyword="museum",location=mid_point[i],radius=10000,language='ja')
-        #place3 = gmaps.places_nearby(keyword="airport",location=mid_point[i],radius=30000,language='ja')
-        #place4 = gmaps.places_nearby(keyword="コンビニ",location=mid_point[i],radius=1000,language='ja')
+        place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=5000,language='ja')
+
 
 #1地点ごとの周辺検索結果を保存
         for j in place1['results']:
@@ -136,7 +135,7 @@ for i in range(0,8,1):
         for j in route['rows'][0]['elements']:
             if 'distance' not in j:
                 continue
-            dis_diff.append([abs(input_distance_km*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
+            dis_diff.append([abs(input_distance_km_def*1000 - j['distance']['value']),gpn[count],gpll[count],j['distance']['text']])
             count += 1
 
 #ゴール候補地が無い場合は処理をしない
@@ -174,43 +173,58 @@ dis_diff_1_sort = sorted(dis_diff_1)
 #差の上位5つを抽出
 distance_diff_5 = []
 route = []
+route_altitude_m = []
 
 #候補地点が5ヶ所以上の場合と以下の場合で分岐
 if len(dis_diff_1_sort) < 5:
+    print(dis_diff_1_sort[0][2])
     for i in range(0,len(dis_diff_1_sort),1):
         distance_diff_5.append(dis_diff_1_sort[i])
-        #route[i].append(dis_diff_1_sort[i][2])
-
+        route.append(dis_diff_1_sort[i][2])
+        distance_diff_5[i].append(colorlist[i])
+        
+        route = [start_point_ll,dis_diff_1_sort[i][2]]
+        route_altitude = gmaps.elevation_along_path(path = route,samples=512)
+        
+        for k in range(0,len(route_altitude),1):
+            route_altitude_m.append(route_altitude[k]['elevation'])
+        max_altitude = int(max(route_altitude_m))
+        min_altitude = int(min(route_altitude_m))
+        
+        distance_diff_5[i].append(max_altitude)
+        distance_diff_5[i].append(min_altitude)
+        
+        route_altitude_m.clear()
+        
 else:
     for i in range(0,5,1):
         distance_diff_5.append(dis_diff_1_sort[i])
-        #route[i].append(dis_diff_1_sort[i][2])
-
-
-print(route)
-#colorコード追加
-for i in range(0,len(distance_diff_5),1):
-    distance_diff_5[i].append(colorlist[i])
-
+        route.append(dis_diff_1_sort[i][2])
+        distance_diff_5[i].append(colorlist[i])
+        
+        route = [start_point_ll,dis_diff_1_sort[i][2]]
+        route_altitude = gmaps.elevation_along_path(path = route,samples=512)
+        for k in range(0,len(route_altitude),1):
+            route_altitude_m.append(route_altitude[k]['elevation'])
+        max_altitude = int(max(route_altitude_m))
+        min_altitude = int(min(route_altitude_m))
+        
+        distance_diff_5[i].append(max_altitude)
+        distance_diff_5[i].append(min_altitude)
+        
+        route_altitude_m.clear()
+        
 print(distance_diff_5)
 
-# route_altitude = gmaps.elevation_along_path(path = route,samples=512)
-# print(len(route_altitude))
-#
-# route_altitude_m = []
-#
-# for i in range(0,len(route_altitude)-1,1):
-#     route_altitude_m[i].append(route_altitude[i]['elevation'])
-# print(route_altitude_m)
-# print(max(route_altitude_m[0]))
-# print(min(route_altitude_m[0]))
+#標高関連
 
-
+   
+   
 # interval = input_distance_km * 1000 / 512
-#
+# 
 # gradient = []
-#
+# 
 # for i in range(0,len(route_altitude)-1,1):
 #     gradient.append((route_altitude[i+1]['elevation'] - route_altitude[i]['elevation']) * 100 / interval)
-#
+# 
 # print(gradient)
