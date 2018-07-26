@@ -168,6 +168,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 			{% for goalname in distance_diff_5 %}
 			<font color="{{ goalname.4 }}"> 目的地:{{ goalname.1 }} </font>
 			<p>走行距離:{{ goalname.3 }}</p>
+			<p>標高max:{{ goalname.5 }}m 標高min:{{ goalname.6 }}m</p>
 			{% endfor %}
 	</div>
 	<div class='return'>
