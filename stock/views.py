@@ -56,7 +56,7 @@ def resultpage(request):
         #0724編集、htmlに影響あり
         if not geocode_result:
             print('スタート地点が見つかりません')
-            return render(request, 'c_error.html')
+            return render(request, 'start_point_error.html')
             exit()
 
         '''
@@ -191,7 +191,7 @@ def resultpage(request):
         #0724編集、htmlに影響あり
         if not dis_diff_1:
             print('候補地点無し')
-            return render(request, 'c_error.html')
+            return render(request, 'goal_point_error.html')
             exit()
 
         print('スタート地点',start_point_ll)
