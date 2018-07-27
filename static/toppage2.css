@@ -44,12 +44,13 @@ html{
   padding: 0.05em 0; /*前後の文との余白*/
   font-size:150%;
   color:#ff8d6d;
+  font-weight: bold;
 }
 .intro h2  {
   line-height: 1.5; /*文の行高*/
   padding: 0.05em 0; /*前後の文との余白*/
   font-size:100%;
-  text-decoration: underline;
+  font-weight: bold;
 }
 button.button {
 	/*font-size: 1.4em;*/
@@ -58,6 +59,7 @@ button.button {
 	background-color: #01a982;
 	color:white;
 	/*border-style: none;*/
+  font-weight: bold;
 }
 
 .main button{

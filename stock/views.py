@@ -43,7 +43,10 @@ def resultpage(request):
         error_pm = input_distance_km * 0.2 * 1000
         input_distance_km_def = input_distance_km
         input_distance_km = input_distance_km * 0.90
-        keyword = ["駅"]
+        keyword = ["駅","コンビニ"]
+
+        search_range = input_distance_km_def * 1000 * 0.1
+
 
         #キーの入力（gmapsに保存）
         gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
@@ -138,7 +141,7 @@ def resultpage(request):
 
             for k in range(0,len(keyword),1):
                 print(i,keyword[k])
-                place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=3000,language='ja')
+                place1 = gmaps.places_nearby(keyword="".join(keyword[k]),location=mid_point[i],radius=search_range,language='ja')
 
 
         #1地点ごとの周辺検索結果を保存
