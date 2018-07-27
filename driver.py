@@ -2,6 +2,7 @@ import googlemaps
 import math
 from googlemaps.places import places
 import requests
+import time
 
 #htmlからのinput
 start_point_jp = '高尾山駅'
@@ -102,7 +103,7 @@ dis_diff = []
 
 #色のリスト
 colorlist = ['#FF0000','#FF8000','#40FF00','#00BFFF','#0000FF']
-
+t1 = time.time()
 #移動した8地点から周辺を検索
 for i in range(0,8,1):
 
@@ -156,7 +157,10 @@ for i in range(0,8,1):
         dis_diff.clear()
         route.clear()
 
+t2 = time.time()
 
+elapsed_time = t2-t1
+print("経過時間：{elapsed_time}")
 #周辺に施設がなかった場合にはプログラム終了（後日、入力ページに戻るように、エラーメッセが表示されるように）
 #0724編集、htmlに影響あり
 if not dis_diff_1:

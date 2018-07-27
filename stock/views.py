@@ -49,7 +49,7 @@ def resultpage(request):
 
 
         #キーの入力（gmapsに保存）
-        gmaps = googlemaps.Client(key="AIzaSyB-o7p9uyxwxAcSUYtpBzhHS3jaM2JuaBw")
+        gmaps = googlemaps.Client(key="AIzaSyCcpyc8eWmTJDJZHZIEtXYR3r0_MMimGLM")
 
         #geocode_resultにstart_point_jp（スタート地点名）を入れることで地点の情報が返ってくる
         geocode_result = gmaps.geocode(start_point_jp)
